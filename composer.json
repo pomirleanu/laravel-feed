@@ -1,7 +1,7 @@
 {
     "name": "pomirleanu/feed",
     "description": "A simple feed generator for Laravel.",
-    "homepage": "https://roumen.it/projects/laravel-feed",
+    "homepage": "https://printreblocuri.ro",
     "keywords": ["laravel", "feed", "generator", "rss", "atom"],
     "license": "MIT",
     "authors": [
