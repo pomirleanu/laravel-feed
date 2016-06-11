@@ -24,7 +24,7 @@
             <summary type="html"><![CDATA[{!! $item['description'] !!}]]></summary>
             <content type="html">
                 <![CDATA[
-                @if(is_array($item['content']))
+                @if(is_a($item['content'], "Illuminate\\Database\\Eloquent\\Collection"))
                     @foreach($item['content'] as $page)
                         <a href="{{$channel['link']}}">
                             <img alt="{{$item['description']}}"
@@ -32,7 +32,7 @@
                         </a>
                     @endforeach
                 @else
-                    <![CDATA[{!! $item['content'] !!}]]
+                    {!! $item['content'] !!}
                 @endif
                 ]]>
             </content>
