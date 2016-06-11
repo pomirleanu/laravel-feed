@@ -140,7 +140,7 @@ class Feed
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description, $content, $enclosure = [], $category='')
+    public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='')
     {
         // shortening the description
         if ($this->shortening)
