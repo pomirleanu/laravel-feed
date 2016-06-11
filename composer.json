@@ -1,15 +1,15 @@
 {
-    "name": "roumen/feed",
+    "name": "pomirleanu/feed",
     "description": "A simple feed generator for Laravel.",
     "homepage": "https://roumen.it/projects/laravel-feed",
     "keywords": ["laravel", "feed", "generator", "rss", "atom"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Roumen Damianoff",
-            "email": "roumen@dawebs.com",
+            "name": "Pomirleanu Florentin-Cristinel",
+            "email": "pomirleanu.florentin@aol.com",
             "role": "Developer",
-            "homepage": "https://roumen.it"
+            "homepage": "https://printreblocuri.ro"
         }
     ],
     "require": {
