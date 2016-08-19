@@ -3,9 +3,9 @@
 /**
  * Feed generator class for laravel-feed package.
  *
- * @author  Roumen Damianoff <roumen@dawebs.com>
- * @version 2.10.2
- * @link    https://roumen.it/projects/laravel-feed
+ * @author Roumen Damianoff <roumen@dawebs.com>
+ * @version 2.10.4
+ * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -210,10 +210,9 @@ class Feed
             $this->caching = $cache;
         }
         if ($key !== null) {
-            $this->cacheKey = $key;
-        }
 
-        if ($this->ctype == null) {
+        if ($this->ctype === null)
+        {
             ($format == 'rss') ? $this->ctype = 'application/rss+xml' : $this->ctype = 'application/atom+xml';
         }
 
@@ -233,24 +232,29 @@ class Feed
             $this->pubdate = date('D, d M Y H:i:s O');
         }
 
-        foreach ($this->items as $k => $v) {
-            $this->items[$k]['title']   = htmlentities(strip_tags($this->items[$k]['title']));
+        if (empty($this->lang)) $this->lang = Config::get('application.language');
+        if (empty($this->link)) $this->link = Config::get('application.url');
+        if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
+
+        foreach($this->items as $k => $v)
+        {
+            $this->items[$k]['title'] = htmlspecialchars(strip_tags($this->items[$k]['title']), ENT_COMPAT, 'UTF-8');
             $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
         }
 
         $channel = [
-            'title'       => htmlentities(strip_tags($this->title)),
-            'description' => $this->description,
-            'logo'        => $this->logo,
-            'icon'        => $this->icon,
-            'color'       => $this->color,
-            'cover'       => $this->cover,
-            'ga'          => $this->ga,
-            'related'     => $this->related,
-            'link'        => $this->link,
-            'pubdate'     => $this->formatDate($this->pubdate, $format),
-            'lang'        => $this->lang,
-            'copyright'   => $this->copyright
+            'title'         =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
+            'description'   =>  $this->description,
+            'logo'          =>  $this->logo,
+            'icon'          =>  $this->icon,
+            'color'         =>  $this->color,
+            'cover'         =>  $this->cover,
+            'ga'            =>  $this->ga,
+            'related'       =>  $this->related,
+            'link'          =>  $this->link,
+            'pubdate'       =>  $this->formatDate($this->pubdate, $format),
+            'lang'          =>  $this->lang,
+            'copyright'     =>  $this->copyright
         ];
 
         $viewData = [
@@ -299,6 +303,7 @@ class Feed
     public static function link($url, $type = 'atom', $title = null, $lang = null)
     {
 
+        if ($type == 'rss') $type = 'application/rss+xml';
         if ($type == 'rss') {
             $type = 'application/rss+xml';
         }
