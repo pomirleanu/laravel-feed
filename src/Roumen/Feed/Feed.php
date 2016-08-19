@@ -20,7 +20,7 @@ class Feed
     /**
      * @var array
      */
-    private $items = [ ];
+    private $items = [];
 
     /**
      * @var string
@@ -120,7 +120,7 @@ class Feed
     /**
      * @var array
      */
-    private $namespaces = [ ];
+    private $namespaces = [];
 
     /**
      * @var string
@@ -142,7 +142,7 @@ class Feed
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description, $content = '', $enclosure = [ ], $category = '')
+    public function add($title, $author, $link, $pubdate, $description, $content = '', $enclosure = [], $category = '')
     {
         // shortening the description
         if ($this->shortening) {
@@ -214,22 +214,22 @@ class Feed
         }
 
         if ($this->ctype == null) {
-            ( $format == 'rss' ) ? $this->ctype = 'application/rss+xml' : $this->ctype = 'application/atom+xml';
+            ($format == 'rss') ? $this->ctype = 'application/rss+xml' : $this->ctype = 'application/atom+xml';
         }
 
         // if cache is on and there is cached feed => return it
         if ($this->caching > 0 && Cache::has($this->cacheKey)) {
             return Response::make(Cache::get($this->cacheKey), 200,
-                [ 'Content-Type' => $this->ctype . '; charset=' . $this->charset ]);
+                ['Content-Type' => $this->ctype . '; charset=' . $this->charset]);
         }
 
-        if (empty( $this->lang )) {
+        if (empty($this->lang)) {
             $this->lang = Config::get('application.language');
         }
-        if (empty( $this->link )) {
+        if (empty($this->link)) {
             $this->link = Config::get('application.url');
         }
-        if (empty( $this->pubdate )) {
+        if (empty($this->pubdate)) {
             $this->pubdate = date('D, d M Y H:i:s O');
         }
 
@@ -265,14 +265,14 @@ class Feed
                 $this->caching);
 
             return Response::make(Cache::get($this->cacheKey), 200,
-                [ 'Content-Type' => $this->ctype . '; charset=' . $this->charset ]);
+                ['Content-Type' => $this->ctype . '; charset=' . $this->charset]);
         } else {
             if ($this->caching == 0) {
                 // if cache is 0 delete the key (if exists) and return response
                 $this->clearCache();
 
                 return Response::make(View::make($this->getView($this->customView), $viewData), 200,
-                    [ 'Content-Type' => $this->ctype . '; charset=' . $this->charset ]);
+                    ['Content-Type' => $this->ctype . '; charset=' . $this->charset]);
             } else {
                 if ($this->caching < 0) {
                     // if cache is negative value delete the key (if exists) and return cachable object
@@ -431,13 +431,13 @@ class Feed
     {
         switch ($this->dateFormat) {
             case "carbon":
-                $date = date(( $format == "atom" ) ? 'c' : 'D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
+                $date = date(($format == "atom") ? 'c' : 'D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
                 break;
             case "timestamp":
-                $date = date(( $format == "atom" ) ? 'c' : 'D, d M Y H:i:s O', $date);
+                $date = date(($format == "atom") ? 'c' : 'D, d M Y H:i:s O', $date);
                 break;
             case "datetime":
-                $date = date(( $format == "atom" ) ? 'c' : 'D, d M Y H:i:s O', strtotime($date));
+                $date = date(($format == "atom") ? 'c' : 'D, d M Y H:i:s O', strtotime($date));
                 break;
         }
 
