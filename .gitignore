@@ -5,4 +5,5 @@ composer.lock
 .directory
 .DS_Store
 Thumbs.db
+.idea
 *.sh
