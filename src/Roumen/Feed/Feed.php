@@ -92,7 +92,7 @@ class Feed
     public $ctype = null;
 
     /**
-     * @var integer
+     * @var carbon|datetime|integer $cache (0 - turns off the cache)
      */
     private $caching = 0;
 
@@ -412,12 +412,16 @@ class Feed
         $this->shortening = $b;
     }
 
+
     /**
      * Format datetime string, timestamp integer or carbon object in valid feed format
      *
-     * @param string/integer $date
+     * @param        $date
+     * @param string $format
      *
      * @return string
+     * @internal param int|carbon|datetime $cache (0 - turns off the cache) $date
+     *
      */
     private function formatDate($date, $format = 'atom')
     {
