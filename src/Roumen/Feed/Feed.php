@@ -140,7 +140,7 @@ class Feed
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='')
+    public function add($title, $author, $link, $pubdate, $description, $content = '', $enclosure = [], $category = '')
     {
         // shortening the description
         if ($this->shortening)
@@ -164,7 +164,6 @@ class Feed
     /**
      * Add new items to $items array
      *
-     * @param array $a
      *
      * @return void
      */
@@ -201,10 +200,18 @@ class Feed
     public function render($format = null, $cache = null, $key = null)
     {
 
-        if ($format == null && $this->customView == null) $format = "atom";
-        if ($this->customView == null) $this->customView = $format;
-        if ($cache != null) $this->caching = $cache;
-        if ($key != null) $this->cacheKey = $key;
+        if ($format == null && $this->customView == null) {
+            $format = "atom";
+        }
+        if ($this->customView == null) {
+            $this->customView = $format;
+        }
+        if ($cache != null) {
+            $this->caching = $cache;
+        }
+        if ($key != null) {
+            $this->cacheKey = $key;
+        }
 
         if ($this->ctype == null)
         {
@@ -214,14 +221,20 @@ class Feed
         // if cache is on and there is cached feed => return it
         if ($this->caching > 0 && Cache::has($this->cacheKey))
         {
-            return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype . '; charset=' . $this->charset));
         }
 
-        if (empty($this->lang)) $this->lang = Config::get('application.language');
-        if (empty($this->link)) $this->link = Config::get('application.url');
-        if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
+        if (empty($this->lang)) {
+            $this->lang = Config::get('application.language');
+        }
+        if (empty($this->link)) {
+            $this->link = Config::get('application.url');
+        }
+        if (empty($this->pubdate)) {
+            $this->pubdate = date('D, d M Y H:i:s O');
+        }
 
-        foreach($this->items as $k => $v)
+        foreach ($this->items as $k => $v)
         {
             $this->items[$k]['title'] = htmlentities(strip_tags($this->items[$k]['title']));
             $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
@@ -253,14 +266,14 @@ class Feed
         {
             Cache::put($this->cacheKey, View::make($this->getView($this->customView), $viewData)->render(), $this->caching);
 
-            return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype . '; charset=' . $this->charset));
         }
         else if ($this->caching == 0)
         {
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
-            return Response::make(View::make($this->getView($this->customView), $viewData), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(View::make($this->getView($this->customView), $viewData), 200, array('Content-Type' => $this->ctype . '; charset=' . $this->charset));
         }
         else if ($this->caching < 0)
         {
@@ -270,28 +283,36 @@ class Feed
             return View::make($this->getView($this->customView), $viewData)->render();
         }
 
-     }
+        }
 
-     /**
-      * Create link
-      *
-      * @param string $url
-      * @param string $type
-      * @param string $title
-      * @param string $lang
-      *
-      * @return string
-      */
-     public static function link($url, $type='atom', $title=null, $lang=null)
-     {
+        /**
+         * Create link
+         *
+         * @param string $url
+         * @param string $type
+         * @param string $title
+         * @param string $lang
+         *
+         * @return string
+         */
+        public static function link($url, $type='atom', $title=null, $lang=null)
+        {
 
-        if ($type == 'rss') $type = 'application/rss+xml';
-        if ($type == 'atom') $type = 'application/atom+xml';
-        if ($title != null) $title = ' title="'.$title.'"';
-        if ($lang != null) $lang = ' hreflang="'.$lang.'"';
+        if ($type == 'rss') {
+            $type = 'application/rss+xml';
+        }
+        if ($type == 'atom') {
+            $type = 'application/atom+xml';
+        }
+        if ($title != null) {
+            $title = ' title="'.$title.'"';
+        }
+        if ($lang != null) {
+            $lang = ' hreflang="'.$lang.'"';
+        }
 
         return '<link rel="alternate"'.$lang.' type="'.$type.'" href="'.$url.'"'.$title.'>';
-     }
+        }
 
     /**
      * Check if feed is cached
@@ -316,7 +337,9 @@ class Feed
      */
     public function clearCache()
     {
-        if ($this->isCached()) Cache::forget($this->cacheKey);
+        if ($this->isCached()) {
+            Cache::forget($this->cacheKey);
+        }
     }
 
     /**
@@ -324,12 +347,14 @@ class Feed
      *
      * @return void
      */
-    public function setCache($duration=60, $key="laravel-feed")
+    public function setCache($duration = 60, $key = "laravel-feed")
     {
         $this->cacheKey = $key;
         $this->caching = $duration;
 
-        if ($duration < 1) $this->clearCache();
+        if ($duration < 1) {
+            $this->clearCache();
+        }
     }
 
     /**
@@ -337,7 +362,7 @@ class Feed
      *
      * @param string $format
      *
-     * @return void
+     * @return string
      */
     public function getView($format)
     {
@@ -348,7 +373,7 @@ class Feed
         }
 
         // else return default view
-        return 'feed::'.$format;
+        return 'feed::' . $format;
     }
 
     /**
@@ -358,7 +383,7 @@ class Feed
      *
      * @return void
      */
-    public function setView($name=null)
+    public function setView($name = null)
     {
         $this->customView = $name;
     }
@@ -370,7 +395,7 @@ class Feed
      *
      * @return void
      */
-    public function setTextLimit($l=150)
+    public function setTextLimit($l = 150)
     {
         $this->shorteningLimit = $l;
     }
@@ -382,7 +407,7 @@ class Feed
      *
      * @return void
      */
-    public function setShortening($b=false)
+    public function setShortening($b = false)
     {
         $this->shortening = $b;
     }
@@ -394,7 +419,7 @@ class Feed
      *
      * @return string
      */
-    private function formatDate($date, $format='atom')
+    private function formatDate($date, $format = 'atom')
     {
         if ($format == "atom")
         {
@@ -410,8 +435,7 @@ class Feed
                     $date = date('c', strtotime($date));
                     break;
             }
-        }
-        else
+        } else
         {
             switch ($this->dateFormat)
             {
@@ -445,7 +469,6 @@ class Feed
     /**
      * Get all namespaces
      *
-     * @param string $n
      *
      * @return void
      */
@@ -461,7 +484,7 @@ class Feed
      *
      * @return void
      */
-    public function setDateFormat($format="datetime")
+    public function setDateFormat($format = "datetime")
     {
         $this->dateFormat = $format;
     }
