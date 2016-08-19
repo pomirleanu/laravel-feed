@@ -200,16 +200,16 @@ class Feed
     public function render($format = null, $cache = null, $key = null)
     {
 
-        if ($format == null && $this->customView == null) {
+        if ($format === null && $this->customView == null) {
             $format = "atom";
         }
         if ($this->customView == null) {
             $this->customView = $format;
         }
-        if ($cache != null) {
+        if ($cache !== null) {
             $this->caching = $cache;
         }
-        if ($key != null) {
+        if ($key !== null) {
             $this->cacheKey = $key;
         }
 
