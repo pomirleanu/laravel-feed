@@ -305,10 +305,7 @@ class Feed
      */
     public static function link($url, $type = 'atom', $title = null, $lang = null)
     {
-
-        if ($type == 'rss') {
-            $type = 'application/rss+xml';
-        }
+        
         if ($type == 'rss') {
             $type = 'application/rss+xml';
         }
