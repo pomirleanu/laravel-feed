@@ -200,7 +200,7 @@ class Feed
         if ($format === null && $this->customView == null) {
             $format = "atom";
         }
-        if ($this->customView == null) {
+        if ($this->customView === null) {
             $this->customView = $format;
         }
         if ($cache !== null) {
@@ -305,7 +305,7 @@ class Feed
      */
     public static function link($url, $type = 'atom', $title = null, $lang = null)
     {
-        
+
         if ($type == 'rss') {
             $type = 'application/rss+xml';
         }
